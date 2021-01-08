@@ -43,7 +43,11 @@ class ProductWithFancyProperty extends BaseImplementation
 	ProductApi $productApi,
 	?Product $product
     ): ?Product {
-        return $this->extendProduct($product);
+        $metafields = $product->dangerousInnerProduct["metafields"]["edges"];
+        $product->projectSpecificData['propertyName'] = $this->getMetafield("propertyName", $metafields);
+        $product->projectSpecificData['fancyProperty'] = $this->getMetafield("fancyProperty", $metafields);
+
+        return $product;
     }
 
     public function afterQuery($productApi,
